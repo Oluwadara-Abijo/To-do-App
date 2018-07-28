@@ -90,6 +90,9 @@ public class TaskProvider extends ContentProvider {
                 //No match found
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+
+        //Set notification URI on cursor so cursor gets updated if data at the URI changes
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -141,6 +144,9 @@ public class TaskProvider extends ContentProvider {
 
         }
 
+        //Notify all listeners of data change for the task content uri
+        getContext().getContentResolver().notifyChange(uri, null);
+
         // Once we know the ID of the new row in the table,
         // return the new URI with the ID appended to the end of it
         return ContentUris.withAppendedId(uri, id);
@@ -153,19 +159,28 @@ public class TaskProvider extends ContentProvider {
         // Get writable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
+        int rowsDeleted;
+
         final int match = uriMatcher.match(uri);
         switch (match) {
             case TASKS:
                 // Delete all rows that match the selection and selection args
-                return database.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted =  database.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case TASK_ID:
                 // Delete a single row given by the ID in the URI
                 selection = TaskEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return database.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
     }
 
     //Updates the data at the given selection and selection arguments, with the new ContentValues.
@@ -199,7 +214,13 @@ public class TaskProvider extends ContentProvider {
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        int rows = database.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
-        return rows;
+        int rowsUpdated = database.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        //Notify all listeners of data change for the task content uri
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsUpdated;
     }
 }
