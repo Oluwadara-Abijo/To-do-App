@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="repeat_options_array">
+        <item>@string/no_repeat</item>
+        <item>@string/repeat_daily</item>
+        <item>@string/repeat_weekly</item>
+        <item>@string/repeat_monthly</item>
+        <item>@string/repeat_yearly</item>
+    </string-array>
+
+    <string-array name="reminder_options_array">
+        <item>@string/reminder_on_time</item>
+        <item>@string/reminder_10_min</item>
+        <item>@string/reminder_30_min</item>
+        <item>@string/reminder_1_hour</item>
+        <item>@string/reminder_1_day</item>
+    </string-array>
+</resources>

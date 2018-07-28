@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    tools:context=".AddNewTaskActivity">
+
+    <EditText
+        android:id="@+id/title_edit_text"
+        style="@style/ContentTheme"
+        android:paddingLeft="24dp"
+        android:layout_width="match_parent"
+        android:hint="@string/title_hint"
+        android:inputType="text|textCapSentences" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/IconsTheme"
+            android:src="@drawable/ic_event_black_24dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/all_day_text_view"
+                style="@style/ContentTheme"
+                android:text="@string/all_day_text" />
+
+            <TextView
+                android:id="@+id/start_date_text_view"
+                style="@style/ContentTheme"
+                android:text="Start Date" />
+
+            <TextView
+                android:id="@+id/end_date_text_view"
+                style="@style/ContentTheme"
+                android:text="End Date" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/all_day_check_box"
+                style="@style/IconsTheme" />
+
+            <TextView
+                android:id="@+id/start_time_text_view"
+                style="@style/ContentTheme" />
+
+            <TextView
+                android:id="@+id/end_time_text_view"
+                style="@style/ContentTheme" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/ViewTheme">
+
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/IconsTheme"
+            android:src="@drawable/ic_notifications_black_24dp" />
+
+        <TextView
+            style="@style/ContentTheme"
+            android:text="@string/reminder_text" />
+
+        <Spinner
+            android:id="@+id/reminder_spinner"
+            style="@style/ContentTheme">
+
+        </Spinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/IconsTheme"
+            android:src="@drawable/ic_refresh_black_24dp" />
+
+        <TextView
+            style="@style/ContentTheme"
+            android:text="@string/repeat_text" />
+
+        <Spinner
+            android:id="@+id/repeat_spinner"
+            style="@style/ContentTheme"
+            android:layout_height="wrap_content">
+
+        </Spinner>
+
+    </LinearLayout>
+
+    <View style="@style/ViewTheme">
+
+    </View>
+
+    <View style="@style/ViewTheme" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/IconsTheme"
+            android:src="@drawable/ic_comment_black_24dp" />
+
+        <EditText
+            android:id="@+id/comment_edit_text"
+            style="@style/ContentTheme"
+            android:layout_width="@dimen/view_width"
+            android:layout_gravity="center"
+            android:hint="@string/comment_text"
+            android:inputType="text" />
+
+    </LinearLayout>
+
+</LinearLayout>
