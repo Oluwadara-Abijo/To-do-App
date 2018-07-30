@@ -18,7 +18,6 @@
         </activity>
         <activity
             android:name=".AddNewTaskActivity"
-            android:label="New Task"
             android:parentActivityName=".MainActivity">
         </activity>
         <provider

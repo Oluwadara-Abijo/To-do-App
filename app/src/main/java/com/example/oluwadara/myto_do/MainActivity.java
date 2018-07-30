@@ -1,5 +1,6 @@
 package com.example.oluwadara.myto_do;
 
+import android.content.ContentUris;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private TaskCursorAdapter mCursorAdapter;
 
@@ -59,6 +61,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //Initialize the loader
         getSupportLoaderManager().initLoader(0, null, this);
+
+        //Set on item click listener on the list view
+        taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, AddNewTaskActivity.class);
+                //Pass the uri of the selected item to the add task activity
+                Uri currentTaskUri = ContentUris.withAppendedId(TaskEntry.CONTENT_URI, id);
+                intent.setData(currentTaskUri);
+                //Set on click listener on each list item
+                startActivity(intent);
+            }
+        });
     }
 
     private void insertTask() {
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        String[] projection = { BaseColumns._ID,
+        String[] projection = {BaseColumns._ID,
                 TaskEntry.COLUMN_TASK_TITLE,
                 TaskEntry.COLUMN_START_DATE,
                 TaskEntry.COLUMN_END_DATE,

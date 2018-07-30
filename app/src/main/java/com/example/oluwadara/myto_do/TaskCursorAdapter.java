@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.example.oluwadara.myto_do.data.TaskContract;
+import com.example.oluwadara.myto_do.data.TaskContract.TaskEntry;
 
 public class TaskCursorAdapter extends CursorAdapter {
 
@@ -33,12 +33,12 @@ public class TaskCursorAdapter extends CursorAdapter {
         TextView commentTextView = view.findViewById(R.id.textView_comment);
 
         //Extract properties from cursor
-        String title = cursor.getString(cursor.getColumnIndexOrThrow(TaskContract.TaskEntry.COLUMN_TASK_TITLE));
-        String startDate = cursor.getString(cursor.getColumnIndexOrThrow(TaskContract.TaskEntry.COLUMN_START_DATE));
-        String endDate = cursor.getString(cursor.getColumnIndexOrThrow(TaskContract.TaskEntry.COLUMN_END_DATE));
-        String startTime = cursor.getString(cursor.getColumnIndexOrThrow(TaskContract.TaskEntry.COLUMN_START_TIME));
-        String endTime = cursor.getString(cursor.getColumnIndexOrThrow(TaskContract.TaskEntry.COLUMN_END_TIME));
-        String comment = cursor.getString(cursor.getColumnIndexOrThrow(TaskContract.TaskEntry.COLUMN_COMMENT));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_TASK_TITLE));
+        String startDate = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_START_DATE));
+        String endDate = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_END_DATE));
+        String startTime = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_START_TIME));
+        String endTime = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_END_TIME));
+        String comment = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_COMMENT));
 
         //Populate text views with extracted properties
         titleTextView.setText(title);

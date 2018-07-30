@@ -3,7 +3,15 @@ package com.example.oluwadara.myto_do;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,7 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddNewTaskActivity extends AppCompatActivity {
+public class AddNewTaskActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //UI Elements
     private EditText mTitleEditText;
@@ -39,7 +47,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
     private TextView mEndDateTextView;
     private TextView mStartTimeTextView;
     private TextView mEndTimeTextView;
-    private CheckBox mCheckBox;
+    private CheckBox mAllDayCheckBox;
     private Spinner mRepeatSpinner;
     private Spinner mReminderSpinner;
     private EditText mCommentEditText;
@@ -55,6 +63,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy", Locale.getDefault());
     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private Uri mCurrentTaskUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +75,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
         mEndDateTextView = findViewById(R.id.end_date_text_view);
         mStartTimeTextView = findViewById(R.id.start_time_text_view);
         mEndTimeTextView = findViewById(R.id.end_time_text_view);
-        mCheckBox = findViewById(R.id.all_day_check_box);
+        mAllDayCheckBox = findViewById(R.id.all_day_check_box);
         mRepeatSpinner = findViewById(R.id.repeat_spinner);
         mReminderSpinner = findViewById(R.id.reminder_spinner);
         mCommentEditText = findViewById(R.id.comment_edit_text);
@@ -87,6 +96,20 @@ public class AddNewTaskActivity extends AppCompatActivity {
         isAllDay();
         setUpRepeatSpinner();
         setUpReminderSpinner();
+
+        //Get the intent that starts the activity
+        Intent intent = getIntent();
+        mCurrentTaskUri = intent.getData();
+        Log.d(">>>", "Uri: " + mCurrentTaskUri);
+        if (mCurrentTaskUri == null) {
+            setTitle(getString(R.string.add_new_task_activity_title));
+        } else {
+            setTitle(getString(R.string.edit_task_activity_title));
+        }
+
+        //Initialize loader
+        getSupportLoaderManager().initLoader(0, null, this);
+
     }
 
     private void pickStartTime() {
@@ -225,7 +248,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
 
     //Define checkbox menu_new_task
     private void isAllDay() {
-        if (mCheckBox.isChecked()) {
+        if (mAllDayCheckBox.isChecked()) {
             mAllDay = TaskEntry.ALL_DAY;
         } else {
             mAllDay = TaskEntry.NOT_ALL_DAY;
@@ -233,7 +256,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
     }
 
     //Set up spinner that allows user set repeat reminder on task
-    private void setUpRepeatSpinner () {
+    private void setUpRepeatSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> repeatAdapter = ArrayAdapter.createFromResource(this,
                 R.array.repeat_options_array, android.R.layout.simple_spinner_item);
@@ -246,7 +269,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 String selection = (String) adapterView.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.repeat_daily))) {
                         mRepeat = TaskEntry.REPEAT_DAILY;
                     } else if (selection.equals(getString(R.string.repeat_weekly))) {
@@ -269,7 +292,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
     }
 
     //Set up spinner that allows user set repeat reminder on task
-    private void setUpReminderSpinner () {
+    private void setUpReminderSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> reminderAdapter = ArrayAdapter.createFromResource(this,
                 R.array.reminder_options_array, android.R.layout.simple_spinner_item);
@@ -282,7 +305,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 String selection = (String) adapterView.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.reminder_on_time))) {
                         mRepeat = TaskEntry.REMINDER_ON_TIME;
                     } else if (selection.equals(getString(R.string.reminder_10_min))) {
@@ -336,7 +359,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.editor_insert_task_failed, Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, R.string.editor_insert_task_successful,  Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.editor_insert_task_successful, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -359,4 +382,105 @@ public class AddNewTaskActivity extends AppCompatActivity {
 
     }
 
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        String[] projection = {BaseColumns._ID,
+                TaskEntry.COLUMN_TASK_TITLE,
+                TaskEntry.COLUMN_ALL_DAY,
+                TaskEntry.COLUMN_START_DATE,
+                TaskEntry.COLUMN_END_DATE,
+                TaskEntry.COLUMN_START_TIME,
+                TaskEntry.COLUMN_END_TIME,
+                TaskEntry.COLUMN_REPEAT,
+                TaskEntry.COLUMN_REMINDER,
+                TaskEntry.COLUMN_COMMENT
+        };
+        return new CursorLoader(this, mCurrentTaskUri, projection,
+                null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+        if (cursor.moveToFirst()) {
+            //Extract properties from cursor
+            String title = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_TASK_TITLE));
+            String startDate = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_START_DATE));
+            String endDate = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_END_DATE));
+            String startTime = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_START_TIME));
+            String endTime = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_END_TIME));
+            String comment = cursor.getString(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_COMMENT));
+            int allDay = cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_ALL_DAY));
+            int reminder = cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_REMINDER));
+            int repeat = cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_REPEAT));
+
+
+            //Populate text views with extracted properties
+            mTitleEditText.setText(title);
+            mStartDateTextView.setText(startDate);
+            mEndDateTextView.setText(endDate);
+            mStartTimeTextView.setText(startTime);
+            mEndTimeTextView.setText(endTime);
+            mCommentEditText.setText(comment);
+
+            //All day is a checkbox, so map the value from the database to its state
+            //Call setChecked so that checkbox shows all day option
+            if (allDay == TaskEntry.ALL_DAY) {
+                mAllDayCheckBox.setChecked(true);
+            } else {
+                mAllDayCheckBox.setChecked(false);
+            }
+
+            //Reminder is a spinner. Map the value from the database to one of the dropdown options
+            //Then call setSelection() so that option is displayed on screen as the current selection
+            switch (reminder) {
+                case TaskEntry.REMINDER_ON_TIME:
+                    mReminderSpinner.setSelection(1);
+                    break;
+                case TaskEntry.REMINDER_10_MIN:
+                    mReminderSpinner.setSelection(2);
+                    break;
+                case TaskEntry.REMINDER_30_MIN:
+                    mReminderSpinner.setSelection(3);
+                    break;
+                case TaskEntry.REMINDER_1_HOUR:
+                    mReminderSpinner.setSelection(4);
+                    break;
+                case TaskEntry.REMINDER_1_DAY:
+                    mReminderSpinner.setSelection(5);
+                    break;
+                default:
+                    mReminderSpinner.setSelection(0);
+                    break;
+            }
+
+            //Repeat is a spinner. Map the value from the database to one of the dropdown options
+            //Then call setSelection() so that option is displayed on screen as the current selection
+            switch (repeat) {
+                case TaskEntry.REPEAT_DAILY:
+                    mRepeatSpinner.setSelection(1);
+                    break;
+                case TaskEntry.REPEAT_WEEKLY:
+                    mRepeatSpinner.setSelection(2);
+                    break;
+                case TaskEntry.REPEAT_MONTHLY:
+                    mRepeatSpinner.setSelection(3);
+                    break;
+                case TaskEntry.REPEAT_YEARLY:
+                    mRepeatSpinner.setSelection(4);
+                    break;
+                default:
+                    mRepeatSpinner.setSelection(0);
+                    break;
+            }
+
+        }
+
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
+    }
 }

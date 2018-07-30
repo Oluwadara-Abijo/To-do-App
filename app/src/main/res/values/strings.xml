@@ -29,6 +29,8 @@
     <string name="task_added">Task added</string>
     <string name="empty_list_title">You have no to-dos yet…</string>
     <string name="add_a_to_do">Start by adding one</string>
+    <string name="edit_task_activity_title">Edit Task</string>
+    <string name="add_new_task_activity_title">Add New Task</string>
 
 
 </resources>
