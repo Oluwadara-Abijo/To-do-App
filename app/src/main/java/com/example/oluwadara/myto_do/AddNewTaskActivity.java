@@ -39,7 +39,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddNewTaskActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AddNewTaskActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     //UI Elements
     private EditText mTitleEditText;
@@ -61,9 +62,14 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
     private TimePickerDialog.OnTimeSetListener mStartTimeSetListener;
     private TimePickerDialog.OnTimeSetListener mEndTimeSetListener;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy", Locale.getDefault());
+    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy",
+            Locale.getDefault());
     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private String mCurrentDate;
+    private String mCurrentTime;
+
     private Uri mCurrentTaskUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +87,14 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
         mCommentEditText = findViewById(R.id.comment_edit_text);
 
         //Set current date on the date text views
-        String currentDate = dateFormat.format(new Date());
-        mStartDateTextView.setText(currentDate);
-        mEndDateTextView.setText(currentDate);
+        mCurrentDate = dateFormat.format(new Date());
+        mStartDateTextView.setText(mCurrentDate);
+        mEndDateTextView.setText(mCurrentDate);
 
         //Set current time on the time text views
-        mStartTimeTextView.setText(R.string.default_time);
-        mEndTimeTextView.setText(R.string.default_time);
+        mCurrentTime = timeFormat.format(new Date());
+        mStartTimeTextView.setText(mCurrentTime);
+        mEndTimeTextView.setText(mCurrentTime);
 
         pickStartDate();
         pickEndDate();
@@ -105,11 +112,10 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
             setTitle(getString(R.string.add_new_task_activity_title));
         } else {
             setTitle(getString(R.string.edit_task_activity_title));
+
+            //Initialize loader
+            getSupportLoaderManager().initLoader(0, null, this);
         }
-
-        //Initialize loader
-        getSupportLoaderManager().initLoader(0, null, this);
-
     }
 
     private void pickStartTime() {
@@ -223,7 +229,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
     private String getDateString(int year, int month, int day) {
         String date = day + "/" + month + "/" + year;
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",
+                Locale.getDefault());
         Date myDate = null;
         try {
             myDate = dateFormat.parse(date);
@@ -267,7 +274,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
         //Set the integer selected to the constant values
         mRepeatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
                 String selection = (String) adapterView.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.repeat_daily))) {
@@ -303,41 +311,45 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
         //Set the integer selected to the constant values
         mReminderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
                 String selection = (String) adapterView.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.reminder_on_time))) {
-                        mRepeat = TaskEntry.REMINDER_ON_TIME;
+                        mReminder = TaskEntry.REMINDER_ON_TIME;
                     } else if (selection.equals(getString(R.string.reminder_10_min))) {
-                        mRepeat = TaskEntry.REMINDER_10_MIN;
+                        mReminder = TaskEntry.REMINDER_10_MIN;
                     } else if (selection.equals(getString(R.string.reminder_30_min))) {
-                        mRepeat = TaskEntry.REMINDER_30_MIN;
+                        mReminder = TaskEntry.REMINDER_30_MIN;
                     } else if (selection.equals(getString(R.string.reminder_1_hour))) {
-                        mRepeat = TaskEntry.REMINDER_1_HOUR;
+                        mReminder = TaskEntry.REMINDER_1_HOUR;
                     } else if (selection.equals(getString(R.string.reminder_1_day))) {
-                        mRepeat = TaskEntry.REMINDER_1_DAY;
+                        mReminder = TaskEntry.REMINDER_1_DAY;
                     } else {
-                        mRepeat = TaskEntry.REMINDER_OFF;
+                        mReminder = TaskEntry.REMINDER_OFF;
                     }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                mRepeat = TaskEntry.REMINDER_OFF;
+                mReminder = TaskEntry.REMINDER_OFF;
             }
         });
     }
 
 
     //Get task details from user and add task to database
-    private void addTask() {
+    private void saveTask() {
         String taskTitle = mTitleEditText.getText().toString().trim();
         String startDate = mStartDateTextView.getText().toString();
         String endDate = mEndDateTextView.getText().toString();
         String startTime = mStartTimeTextView.getText().toString();
         String endTime = mEndTimeTextView.getText().toString();
         String comment = mCommentEditText.getText().toString();
+
+        //If the task title is blank, the user will not be allowed to save the new task
+        if (mCurrentTaskUri == null && TextUtils.isEmpty(taskTitle)) return;
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -351,35 +363,36 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
         values.put(TaskEntry.COLUMN_REMINDER, mReminder);
         values.put(TaskEntry.COLUMN_COMMENT, comment);
 
-        Uri newUri = getContentResolver().insert(TaskEntry.CONTENT_URI, values);
+        Log.d(">>>", "Values: " + values);
 
-        // Show a toast message depending on whether or not the insertion was successful
-        if (newUri == null) {
-            // If the row ID is -1, then there was an error with insertion.
-            Toast.makeText(this, R.string.editor_insert_task_failed, Toast.LENGTH_SHORT).show();
+        if (mCurrentTaskUri == null) {
+            Uri newUri = getContentResolver().insert(TaskEntry.CONTENT_URI, values);
+
+            // Show a toast message depending on whether or not the insertion was successful
+            if (newUri == null) {
+                // If the row ID is -1, then there was an error with insertion.
+                Toast.makeText(this, R.string.editor_insert_task_failed,
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the insertion was successful
+                // and we can display a toast with the row ID.
+                Toast.makeText(this, R.string.editor_insert_task_successful,
+                        Toast.LENGTH_SHORT).show();
+            }
         } else {
-            // Otherwise, the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, R.string.editor_insert_task_successful, Toast.LENGTH_SHORT).show();
+            int rowsUpdated = getContentResolver().update(mCurrentTaskUri, values,
+                    null, null);
+
+            //Show a toast message depending on whether or not the update was successful
+            if (rowsUpdated == 0) {
+                // If no rows were updated then there was an error with insertion.
+                Toast.makeText(this, R.string.update_task_error, Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the update was successful and we can display a toast showing updated
+                Toast.makeText(this, R.string.update_task_successful,
+                        Toast.LENGTH_SHORT).show();
+            }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_new_task, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                addTask();
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-
     }
 
     @NonNull
@@ -413,7 +426,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
             int allDay = cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_ALL_DAY));
             int reminder = cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_REMINDER));
             int repeat = cursor.getInt(cursor.getColumnIndexOrThrow(TaskEntry.COLUMN_REPEAT));
-
 
             //Populate text views with extracted properties
             mTitleEditText.setText(title);
@@ -475,12 +487,37 @@ public class AddNewTaskActivity extends AppCompatActivity implements LoaderManag
             }
 
         }
-
-
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        // If the loader is invalidated, clear out all the data from the input fields.
+        mTitleEditText.setText("");
+        mStartDateTextView.setText(mCurrentDate);
+        mEndDateTextView.setText(mCurrentDate);
+        mStartTimeTextView.setText(mCurrentTime);
+        mEndTimeTextView.setText(mCurrentTime);
+        mCommentEditText.setText("");
+        mRepeatSpinner.setSelection(0);
+        mReminderSpinner.setSelection(0);
+        mAllDayCheckBox.setChecked(false);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_new_task, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                saveTask();
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

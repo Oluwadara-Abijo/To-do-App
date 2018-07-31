@@ -17,6 +17,7 @@
     <string name="repeat_yearly">Yearly</string>
 
     <!--Reminder spinner option labels -->
+    <string name="reminder_off">No reminder</string>
     <string name="reminder_on_time">On time</string>
     <string name="reminder_10_min">10 minutes before</string>
     <string name="reminder_30_min">30 minutes before</string>
@@ -31,6 +32,8 @@
     <string name="add_a_to_do">Start by adding one</string>
     <string name="edit_task_activity_title">Edit Task</string>
     <string name="add_new_task_activity_title">Add New Task</string>
+    <string name="update_task_error">Error updating task</string>
+    <string name="update_task_successful">Task updated</string>
 
 
 </resources>

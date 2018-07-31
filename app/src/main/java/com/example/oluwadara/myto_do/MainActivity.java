@@ -27,7 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private TaskCursorAdapter mCursorAdapter;
 
@@ -66,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, AddNewTaskActivity.class);
+                Intent intent = new Intent(MainActivity.this,
+                        AddNewTaskActivity.class);
                 //Pass the uri of the selected item to the add task activity
                 Uri currentTaskUri = ContentUris.withAppendedId(TaskEntry.CONTENT_URI, id);
                 intent.setData(currentTaskUri);

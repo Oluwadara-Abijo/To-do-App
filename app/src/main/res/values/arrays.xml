@@ -9,6 +9,7 @@
     </string-array>
 
     <string-array name="reminder_options_array">
+        <item>@string/reminder_off</item>
         <item>@string/reminder_on_time</item>
         <item>@string/reminder_10_min</item>
         <item>@string/reminder_30_min</item>
