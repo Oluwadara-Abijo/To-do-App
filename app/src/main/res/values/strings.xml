@@ -34,6 +34,9 @@
     <string name="add_new_task_activity_title">Add New Task</string>
     <string name="update_task_error">Error updating task</string>
     <string name="update_task_successful">Task updated</string>
+    <string name="unsaved_changes_dialog_msg">Discard changes or continue editing?</string>
+    <string name="discard">Discard</string>
+    <string name="continue_editing">Continue Editing</string>
 
 
 </resources>
