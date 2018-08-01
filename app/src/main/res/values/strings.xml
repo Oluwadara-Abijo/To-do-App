@@ -45,6 +45,8 @@
     <string name="empty_tasks_image">Empty Tasks Image</string>
     <string name="editor_delete_task_failed">Error deleting task</string>
     <string name="editor_delete_task_successful">Task deleted</string>
+    <string name="all_tasks_deleted">All tasks have been deleted</string>
+    <string name="delete_all_dialog_msg">Delete all tasks?</string>
 
 
 </resources>

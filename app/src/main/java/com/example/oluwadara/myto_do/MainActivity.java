@@ -223,6 +223,32 @@ public class MainActivity extends AppCompatActivity implements
         alertDialog.show();
     }
 
+    private void showDeleteAllConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_all_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteAllPets();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     /**
      * Perform the deletion of the pet in the database.
      */
@@ -242,6 +268,15 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Helper method to delete all tasks in the database.
+     */
+    private void deleteAllPets() {
+        int rowsDeleted = getContentResolver().delete(TaskEntry.CONTENT_URI, null,
+                null);
+        Toast.makeText(this, R.string.all_tasks_deleted, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -250,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements
                 insertTask();
                 return true;
             case R.id.action_delete_all_entries:
+                showDeleteAllConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
