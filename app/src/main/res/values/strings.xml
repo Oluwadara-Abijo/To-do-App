@@ -37,6 +37,14 @@
     <string name="unsaved_changes_dialog_msg">Discard changes or continue editing?</string>
     <string name="discard">Discard</string>
     <string name="continue_editing">Continue Editing</string>
+    <string name="delete_dialog_msg">Delete this task?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="list_item_options">Options</string>
+    <string name="list_item_icon">Icon</string>
+    <string name="empty_tasks_image">Empty Tasks Image</string>
+    <string name="editor_delete_task_failed">Error deleting task</string>
+    <string name="editor_delete_task_successful">Task deleted</string>
 
 
 </resources>

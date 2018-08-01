@@ -8,11 +8,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text_view_task"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
@@ -31,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/to_do_small"/>
+            android:src="@drawable/to_do_small"
+            android:contentDescription="@string/empty_tasks_image" />
 
         <TextView
             android:id="@+id/empty_to_do_title"
@@ -63,7 +59,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add_black_24dp" />
+        android:src="@drawable/baseline_add_white_24" />
 
 
 </RelativeLayout>

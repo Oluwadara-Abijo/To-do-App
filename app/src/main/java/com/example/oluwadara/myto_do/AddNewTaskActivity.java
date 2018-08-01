@@ -127,11 +127,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements
 
         mTitleEditText.setOnTouchListener(mTouchListener);
         mCommentEditText.setOnTouchListener(mTouchListener);
-        mAllDayCheckBox.setOnTouchListener(mTouchListener);
-        mStartDateTextView.setOnTouchListener(mTouchListener);
-        mEndDateTextView.setOnTouchListener(mTouchListener);
-        mStartTimeTextView.setOnTouchListener(mTouchListener);
-        mEndTimeTextView.setOnTouchListener(mTouchListener);
         mReminderSpinner.setOnTouchListener(mTouchListener);
         mRepeatSpinner.setOnTouchListener(mTouchListener);
 
@@ -213,6 +208,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         mStartTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                mTaskHasChanged = true;
                 Log.d("Time>>>", "" + hour + minute);
                 String timePicked = getTimeString(hour, minute);
 
@@ -241,6 +237,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         mEndTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                mTaskHasChanged = true;
                 Log.d("Time>>>", "" + hour + minute);
                 String timePicked = getTimeString(hour, minute);
                 mEndTimeTextView.setText(timePicked);
@@ -267,6 +264,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         mStartDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                mTaskHasChanged = true;
                 month += 1;
                 String startDate = getDateString(year, month, day);
                 mStartDateTextView.setText(startDate);
@@ -294,6 +292,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         mEndDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                mTaskHasChanged = true;
                 month += 1;
                 String endDate = getDateString(year, month, day);
                 mEndDateTextView.setText(endDate);
@@ -618,4 +617,5 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

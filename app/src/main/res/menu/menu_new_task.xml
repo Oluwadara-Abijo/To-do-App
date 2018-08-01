@@ -5,9 +5,8 @@
     <!-- "Mark Favorite", should appear as menu_new_task button if possible -->
     <item
         android:id="@+id/action_save"
-        android:icon="@drawable/ic_action_done_white"
+        android:icon="@drawable/baseline_done_white_24"
         android:title="@string/action_save"
         app:showAsAction="always"/>
-
 
 </menu>
