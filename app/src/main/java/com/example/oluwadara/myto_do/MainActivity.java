@@ -280,10 +280,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_dummy_data:
-                Toast.makeText(this, R.string.task_added, Toast.LENGTH_SHORT).show();
-                insertTask();
-                return true;
             case R.id.action_delete_all_entries:
                 showDeleteAllConfirmationDialog();
                 return true;

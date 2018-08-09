@@ -19,7 +19,7 @@ public class TaskCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return LayoutInflater.from(context).inflate(R.layout.item, viewGroup,false);
+        return LayoutInflater.from(context).inflate(R.layout.item_task, viewGroup, false);
 
     }
 
@@ -47,7 +47,11 @@ public class TaskCursorAdapter extends CursorAdapter {
         endDateTextView.setText(endDate);
         startTimeTextView.setText(startTime);
         endTimeTextView.setText(endTime);
-        commentTextView.setText(comment);
+        if (comment.equals("")) {
+            commentTextView.setVisibility(View.GONE);
+        } else {
+            commentTextView.setText(comment);
+        }
 
     }
 }
