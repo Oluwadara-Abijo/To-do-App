@@ -6,7 +6,6 @@
     <string name="comment_text">Comment</string>
     <string name="all_day_text">All day</string>
     <string name="action_save">Save</string>
-    <string name="action_cancel">Cancel</string>
     <string name="default_time">00:00</string>
 
     <!--Repeat Spinner option labels -->
@@ -23,11 +22,9 @@
     <string name="reminder_30_min">30 minutes before</string>
     <string name="reminder_1_hour">1 hour before</string>
     <string name="reminder_1_day">1 day before</string>
-    <string name="add_dummy_data_label">Insert Dummy Data</string>
     <string name="delete_all_entries_label">Delete All Tasks</string>
     <string name="editor_insert_task_successful">Task saved</string>
     <string name="editor_insert_task_failed">Error saving task</string>
-    <string name="task_added">Task added</string>
     <string name="empty_list_title">You have no to-dos yet…</string>
     <string name="add_a_to_do">Start by adding one</string>
     <string name="edit_task_activity_title">Edit Task</string>
@@ -40,7 +37,6 @@
     <string name="delete_dialog_msg">Delete this task?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
-    <string name="list_item_options">Options</string>
     <string name="list_item_icon">Icon</string>
     <string name="empty_tasks_image">Empty Tasks Image</string>
     <string name="editor_delete_task_failed">Error deleting task</string>
@@ -49,6 +45,10 @@
     <string name="delete_all_dialog_msg">Delete all tasks?</string>
     <string name="start_date_label">Start Date</string>
     <string name="start_time_label">Start Time</string>
+    <string name="calendar_icon">calendar_icon</string>
+    <string name="notification_icon">notification_icon</string>
+    <string name="repeat_icon">repeat_icon</string>
+    <string name="comment_icon">comment_icon</string>
 
 
 </resources>

@@ -67,16 +67,15 @@ public class AddNewTaskActivity extends AppCompatActivity implements
     private TimePickerDialog.OnTimeSetListener mStartTimeSetListener;
     private TimePickerDialog.OnTimeSetListener mEndTimeSetListener;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy",
+    private final SimpleDateFormat mDateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy",
             Locale.getDefault());
-    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private final SimpleDateFormat mTimeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private String mCurrentDate;
     private String mCurrentTime;
 
     private Uri mCurrentTaskUri;
 
     private boolean mTaskHasChanged = false;
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -95,12 +94,12 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         mCommentEditText = findViewById(R.id.comment_edit_text);
 
         //Set current date on the date text views
-        mCurrentDate = dateFormat.format(new Date());
+        mCurrentDate = mDateFormat.format(new Date());
         mStartDateTextView.setText(mCurrentDate);
         mEndDateTextView.setText(mCurrentDate);
 
         //Set current time on the time text views
-        mCurrentTime = timeFormat.format(new Date());
+        mCurrentTime = mTimeFormat.format(new Date());
         mStartTimeTextView.setText(mCurrentTime);
         mEndTimeTextView.setText(mCurrentTime);
 
@@ -134,7 +133,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
 
     // OnTouchListener that listens for any user touches on a View, implying that they are modifying
     // the view, and we change the mTaskHasChanged boolean to true.
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+    private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             view.performClick();
@@ -153,7 +152,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         builder.setNegativeButton(R.string.continue_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Continue editing" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the task.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -311,7 +310,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return this.dateFormat.format(myDate);
+        return this.mDateFormat.format(myDate);
     }
 
     private String getTimeString(int hour, int minute) {
@@ -324,7 +323,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return this.timeFormat.format(myTime);
+        return this.mTimeFormat.format(myTime);
     }
 
     //Define checkbox menu_new_task
@@ -577,6 +576,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         mAllDayCheckBox.setChecked(false);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -592,7 +592,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
                 finish();
                 return true;
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
+                // If the task hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mTaskHasChanged) {
                     NavUtils.navigateUpFromSameTask(AddNewTaskActivity.this);

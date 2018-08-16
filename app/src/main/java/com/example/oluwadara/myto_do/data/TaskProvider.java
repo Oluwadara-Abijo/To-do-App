@@ -208,7 +208,7 @@ public class TaskProvider extends ContentProvider {
         if (values.containsKey(TaskContract.TaskEntry.COLUMN_TASK_TITLE)) {
             String name = values.getAsString(TaskEntry.COLUMN_TASK_TITLE);
             if (name == null) {
-                throw new IllegalArgumentException("Pet requires a name");
+                throw new IllegalArgumentException("task requires a name");
             }
         }
 

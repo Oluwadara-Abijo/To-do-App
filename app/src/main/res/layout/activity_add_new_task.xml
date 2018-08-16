@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp">
@@ -52,7 +51,8 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/start_date_text_view"
-        app:srcCompat="@drawable/ic_event_black_24dp" />
+        app:srcCompat="@drawable/ic_event_black_24dp"
+        android:contentDescription="@string/calendar_icon" />
 
     <TextView
         android:id="@+id/start_date_text_view"
@@ -101,7 +101,8 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView4"
-        app:srcCompat="@drawable/ic_notifications_black_24dp" />
+        app:srcCompat="@drawable/ic_notifications_black_24dp"
+        android:contentDescription="@string/notification_icon" />
 
     <TextView
         android:id="@+id/textView4"
@@ -132,7 +133,8 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView5"
-        app:srcCompat="@drawable/ic_refresh_black_24dp" />
+        app:srcCompat="@drawable/ic_refresh_black_24dp"
+        android:contentDescription="@string/repeat_icon" />
 
     <TextView
         android:id="@+id/textView5"
@@ -165,7 +167,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/comment_edit_text"
-        app:srcCompat="@drawable/ic_comment_black_24dp" />
+        app:srcCompat="@drawable/ic_comment_black_24dp"
+        android:contentDescription="@string/comment_icon" />
 
     <EditText
         android:id="@+id/comment_edit_text"

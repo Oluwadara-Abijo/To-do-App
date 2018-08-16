@@ -7,7 +7,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -27,10 +26,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.oluwadara.myto_do.data.TaskContract.TaskEntry;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -136,27 +131,6 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    private void insertTask() {
-
-        String currentDate = new SimpleDateFormat("EEE, MMM dd, yyyy",
-                Locale.getDefault()).format(new Date());
-
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(TaskEntry.COLUMN_TASK_TITLE, "Nanodegree Class");
-        values.put(TaskEntry.COLUMN_ALL_DAY, TaskEntry.NOT_ALL_DAY);
-        values.put(TaskEntry.COLUMN_START_DATE, currentDate);
-        values.put(TaskEntry.COLUMN_END_DATE, currentDate);
-        values.put(TaskEntry.COLUMN_START_TIME, "09:00");
-        values.put(TaskEntry.COLUMN_END_TIME, "13:00");
-        values.put(TaskEntry.COLUMN_REPEAT, TaskEntry.REPEAT_DAILY);
-        values.put(TaskEntry.COLUMN_REMINDER, TaskEntry.REMINDER_10_MIN);
-        values.put(TaskEntry.COLUMN_COMMENT, "Finish a lesson");
-
-        // Insert the new row, returning the primary key value of the new row
-        Uri newUri = getContentResolver().insert(TaskEntry.CONTENT_URI, values);
-    }
-
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -183,13 +157,6 @@ public class MainActivity extends AppCompatActivity implements
         mCursorAdapter.swapCursor(null);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     private void showDeleteConfirmationDialog() {
         Log.d(">>>", "Inside Dialog: " + mCurrentTaskUri);
 
@@ -199,10 +166,10 @@ public class MainActivity extends AppCompatActivity implements
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+                // User clicked the "Delete" button, so delete the task.
                 Log.d(">>>", "Before Delete: " + mCurrentTaskUri);
 
-                deletePet();
+                deleteTask();
 
                 Log.d(">>>", "After Delete: " + mCurrentTaskUri);
 
@@ -211,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the task.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -230,14 +197,14 @@ public class MainActivity extends AppCompatActivity implements
         builder.setMessage(R.string.delete_all_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
-                deleteAllPets();
+                // User clicked the "Delete" button, so delete the task.
+                deleteAllTasks();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the task.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -250,13 +217,13 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of the task in the database.
      */
-    private void deletePet() {
+    private void deleteTask() {
         if (mCurrentTaskUri != null) {
             int rowsDeleted = getContentResolver().delete(mCurrentTaskUri, null,
                     null);
-            //Show a toast message if the pet was deleted successfully or not
+            //Show a toast message if the task was deleted successfully or not
             if (rowsDeleted == 0) {
                 Toast.makeText(this, R.string.editor_delete_task_failed,
                         Toast.LENGTH_SHORT).show();
@@ -271,10 +238,17 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Helper method to delete all tasks in the database.
      */
-    private void deleteAllPets() {
-        int rowsDeleted = getContentResolver().delete(TaskEntry.CONTENT_URI, null,
+    private void deleteAllTasks() {
+        getContentResolver().delete(TaskEntry.CONTENT_URI, null,
                 null);
         Toast.makeText(this, R.string.all_tasks_deleted, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override

@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.oluwadara.myto_do.data.TaskContract.TaskEntry;
 
-public class TaskCursorAdapter extends CursorAdapter {
+class TaskCursorAdapter extends CursorAdapter {
 
     public TaskCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);

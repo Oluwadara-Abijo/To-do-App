@@ -10,7 +10,7 @@ public final class TaskContract {
 
     public static final String PATH_TASKS = "tasks";
 
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.

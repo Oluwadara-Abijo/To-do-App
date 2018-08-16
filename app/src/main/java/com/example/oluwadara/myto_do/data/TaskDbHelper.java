@@ -7,10 +7,10 @@ import android.util.Log;
 
 import com.example.oluwadara.myto_do.data.TaskContract.TaskEntry;
 
-public class TaskDbHelper extends SQLiteOpenHelper {
+class TaskDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "tasks.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "tasks.db";
 
     //Constructor
     public TaskDbHelper(Context context) {
