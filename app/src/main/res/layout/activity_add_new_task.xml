@@ -7,7 +7,7 @@
 
     <EditText
         android:id="@+id/title_edit_text"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_marginLeft="72dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/all_day_text_view"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dp"
@@ -46,7 +46,7 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        style="@style/NewIconsTheme"
+        style="@style/IconsTheme"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
 
     <TextView
         android:id="@+id/start_date_text_view"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
@@ -66,7 +66,7 @@
 
     <TextView
         android:id="@+id/start_time_text_view"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/default_time"
@@ -77,7 +77,7 @@
 
     <TextView
         android:id="@+id/end_date_text_view"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_marginTop="32dp"
         android:text="@string/start_time_label"
         app:layout_constraintStart_toStartOf="@+id/start_date_text_view"
@@ -85,7 +85,7 @@
 
     <TextView
         android:id="@+id/end_time_text_view"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/default_time"
@@ -96,7 +96,7 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        style="@style/NewIconsTheme"
+        style="@style/IconsTheme"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
 
     <TextView
         android:id="@+id/textView4"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="36dp"
@@ -128,7 +128,7 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        style="@style/NewIconsTheme"
+        style="@style/IconsTheme"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
 
     <TextView
         android:id="@+id/textView5"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
@@ -161,7 +161,7 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        style="@style/NewIconsTheme"
+        style="@style/IconsTheme"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -172,7 +172,7 @@
 
     <EditText
         android:id="@+id/comment_edit_text"
-        style="@style/NewContentTheme"
+        style="@style/ContentTheme"
         android:layout_width="match_parent"
         android:layout_marginLeft="88dp"
         android:layout_marginStart="72dp"
@@ -184,7 +184,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"
@@ -198,7 +197,6 @@
         app:layout_constraintTop_toBottomOf="@+id/end_date_text_view" />
 
     <View
-        android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"
@@ -213,7 +211,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <View
-        android:id="@+id/divider3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginEnd="8dp"

@@ -49,6 +49,13 @@
     <string name="notification_icon">notification_icon</string>
     <string name="repeat_icon">repeat_icon</string>
     <string name="comment_icon">comment_icon</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings for SharedPreferences -->
+    <string name="pref_night_mode_key">night_mode</string>
+    <string name="pref_night_mode_summary_off">Night mode off</string>
+    <string name="pref_night_mode_summary_on">Night mode on</string>
+    <string name="pref_night_mode_label">Night Mode</string>
 
 
 </resources>

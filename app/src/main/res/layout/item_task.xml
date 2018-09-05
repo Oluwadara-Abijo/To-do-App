@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/textView_title"
-        style="@style/TitleItemList"
+        style="@style/ItemListTitle"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         app:layout_constraintStart_toEndOf="@+id/imageView"

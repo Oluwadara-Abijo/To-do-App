@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.oluwadara.myto_do.data.TaskContract.TaskEntry;
 
-class TaskCursorAdapter extends CursorAdapter {
+public class TaskCursorAdapter extends CursorAdapter {
 
     public TaskCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);

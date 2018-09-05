@@ -6,34 +6,43 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/content_text</item>
+        <!-- Theme for shared preference -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <style name="NewContentTheme">
-        <item name="android:textColor">@color/content_text</item>
+    <style name="NightModeTheme" parent="Theme.AppCompat" >
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/content_text_white</item>
+        <!-- Theme for shared preference -->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="ContentTheme">
         <item name="android:textSize">16sp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
-    <style name="NewIconsTheme">
+    <style name="IconsTheme">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="ItemListTheme">
-        <item name="android:textColor">@color/content_text</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
 
-    <style name="TitleItemList" parent="ItemListTheme">
+    <style name="ItemListTitle" parent="ItemListTheme">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
-
     </style>
 
 </resources>

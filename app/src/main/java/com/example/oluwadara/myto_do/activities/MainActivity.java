@@ -1,4 +1,4 @@
-package com.example.oluwadara.myto_do;
+package com.example.oluwadara.myto_do.activities;
 
 import android.content.ContentUris;
 import android.content.DialogInterface;
@@ -25,6 +25,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.oluwadara.myto_do.R;
+import com.example.oluwadara.myto_do.TaskCursorAdapter;
 import com.example.oluwadara.myto_do.data.TaskContract.TaskEntry;
 
 public class MainActivity extends AppCompatActivity implements
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MyToDoPreferences.setPreferredTheme(this);
+
         setContentView(R.layout.activity_main);
 
         //Set on click listener for addTask button
@@ -257,7 +262,11 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.action_delete_all_entries:
                 showDeleteAllConfirmationDialog();
                 return true;
+            case R.id.action_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

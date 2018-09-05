@@ -1,4 +1,4 @@
-package com.example.oluwadara.myto_do;
+package com.example.oluwadara.myto_do.activities;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.oluwadara.myto_do.R;
 import com.example.oluwadara.myto_do.data.TaskContract.TaskEntry;
 
 
@@ -81,6 +82,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyToDoPreferences.setPreferredTheme(this);
         setContentView(R.layout.activity_add_new_task);
 
         mTitleEditText = findViewById(R.id.title_edit_text);
@@ -208,9 +210,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                 mTaskHasChanged = true;
-                Log.d("Time>>>", "" + hour + minute);
                 String timePicked = getTimeString(hour, minute);
-
                 mStartTimeTextView.setText(timePicked);
             }
         };
@@ -237,7 +237,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                 mTaskHasChanged = true;
-                Log.d("Time>>>", "" + hour + minute);
                 String timePicked = getTimeString(hour, minute);
                 mEndTimeTextView.setText(timePicked);
             }
@@ -414,6 +413,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements
 
     //Get task details from user and add task to database
     private void saveTask() {
+
         String taskTitle = mTitleEditText.getText().toString().trim();
         String startDate = mStartDateTextView.getText().toString();
         String endDate = mEndDateTextView.getText().toString();
@@ -575,7 +575,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements
         mReminderSpinner.setSelection(0);
         mAllDayCheckBox.setChecked(false);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
