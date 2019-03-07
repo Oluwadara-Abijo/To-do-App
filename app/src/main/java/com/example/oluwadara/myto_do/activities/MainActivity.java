@@ -269,4 +269,9 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyToDoPreferences.setPreferredTheme(this);
+    }
 }
